@@ -4,45 +4,42 @@
 #include <stdio.h>
 #include <sys/wait.h>
 
-const int PERIOD = 500;
-
-int RR(int N, struct Process* processes) {
+int PSJF(int N, struct Process* processes) {
     int idx = 0, running = -1;
-    int currentTime = 0, TTL = 0;
+    int currentTime = 0;
 
-    struct Queue *q = newQueue(N);
+    struct PQueue *pq = newPQueue(N, processes);
 
     while (1) {
         // Enqueue all ready processes
         while (idx < N && processes[idx].readyTime <= currentTime) {
-            QPush(q, idx++);
+            PQPush(pq, idx++);
         }
 
-        // If TTL = 0
-        if (running != -1 && TTL == 0) {
+        // Check if running is current shortest
+        if (running != -1 && pq->size > 0 && processes[running].executionTime > processes[PQTop(pq)].executionTime) {
+            printf("[%5d] ", currentTime);
             blockProcess(processes[running].pid);
-            QPush(q, running);
+            PQPush(pq, running);
             running = -1;
         }
 
         // Start / wakeup a process
-        if (running == -1 && q->size > 0) {
-            running = QPop(q);
+        if (running == -1 && pq->size > 0) {
+            running = PQPop(pq);
             if (processes[running].pid == -1) {
                 processes[running].pid = startProcess(processes[running]);
             } else {
+                printf("[%5d] ", currentTime);
                 wakeProcess(processes[running].pid);
             }
-            TTL = PERIOD;
         }
 
         // Elapse
         UNIT();
         currentTime += 1;
-        if (running != -1) {
+        if (running != -1)
             processes[running].executionTime -= 1;
-            TTL -= 1;
-        }
 
         // Check if process ends or TTL = 0
         if (running != -1) {
@@ -55,7 +52,7 @@ int RR(int N, struct Process* processes) {
         }
 
         // Check if all done
-        if (running == -1 && idx == N && q->size == 0)
+        if (running == -1 && idx == N && pq->size == 0)
             break;
     }
     return 0;

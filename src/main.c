@@ -5,13 +5,20 @@
 
 #include "include/process.h"
 #include "include/fifo.h"
+#include "include/rr.h"
+#include "include/sjf.h"
+#include "include/psjf.h"
 
 int procCmp(const void *a, const void *b) {
-    struct Process *pa = (struct Process*) a;
-    struct Process *pb = (struct Process*) b;
-    return pa->readyTime == pb->readyTime ?
-        pa->executionTime - pb->executionTime :
-        pa->readyTime - pb->readyTime;
+    struct Process *pa = (struct Process*) a, *pb = (struct Process*) b;
+
+    if (pa->readyTime != pb->readyTime) {
+        return pa->readyTime - pb->readyTime;
+    } else if (pa->executionTime != pb->executionTime) {
+        return pa->executionTime - pb->executionTime;
+    } else {
+        return strcmp(pa->name, pb->name);
+    }
 }
 
 int main() {
@@ -38,11 +45,11 @@ int main() {
     if (strcmp(policy, "FIFO") == 0) {
         FIFO(N, processes);
     } else if (strcmp(policy, "RR") == 0) {
-        /* RR(N, processes); */
+        RR(N, processes);
     } else if (strcmp(policy, "SJF") == 0) {
-        /* SJF(N, processes); */
+        SJF(N, processes);
     } else if (strcmp(policy, "PSJF") == 0) {
-        /* PSJF(N, processes); */
+        PSJF(N, processes);
     } else {
         fprintf(stderr, "Error: Wrong scheduling policy.");
     }

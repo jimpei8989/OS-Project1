@@ -4,36 +4,22 @@
 #include <stdio.h>
 #include <sys/wait.h>
 
-const int PERIOD = 500;
-
-int RR(int N, struct Process* processes) {
+int SJF(int N, struct Process* processes) {
     int idx = 0, running = -1;
-    int currentTime = 0, TTL = 0;
+    int currentTime = 0;
 
-    struct Queue *q = newQueue(N);
+    struct PQueue *pq = newPQueue(N, processes);
 
     while (1) {
         // Enqueue all ready processes
         while (idx < N && processes[idx].readyTime <= currentTime) {
-            QPush(q, idx++);
-        }
-
-        // If TTL = 0
-        if (running != -1 && TTL == 0) {
-            blockProcess(processes[running].pid);
-            QPush(q, running);
-            running = -1;
+            PQPush(pq, idx++);
         }
 
         // Start / wakeup a process
-        if (running == -1 && q->size > 0) {
-            running = QPop(q);
-            if (processes[running].pid == -1) {
-                processes[running].pid = startProcess(processes[running]);
-            } else {
-                wakeProcess(processes[running].pid);
-            }
-            TTL = PERIOD;
+        if (running == -1 && pq->size > 0) {
+            running = PQPop(pq);
+            processes[running].pid = startProcess(processes[running]);
         }
 
         // Elapse
@@ -41,7 +27,6 @@ int RR(int N, struct Process* processes) {
         currentTime += 1;
         if (running != -1) {
             processes[running].executionTime -= 1;
-            TTL -= 1;
         }
 
         // Check if process ends or TTL = 0
@@ -55,7 +40,7 @@ int RR(int N, struct Process* processes) {
         }
 
         // Check if all done
-        if (running == -1 && idx == N && q->size == 0)
+        if (running == -1 && idx == N && pq->size == 0)
             break;
     }
     return 0;

@@ -2,6 +2,7 @@
 #include "include/process.h"
 
 #include <stdio.h>
+#include <sys/wait.h>
 
 int FIFO(int N, struct Process* processes) {
     int idx = 0, running = -1;
@@ -9,7 +10,7 @@ int FIFO(int N, struct Process* processes) {
 
     while (1) {
         // Check if a new ready process is going to start
-        if (running == -1 && processes[idx].readyTime >= currentTime) {
+        if (running == -1 && processes[idx].readyTime <= currentTime) {
             running = idx++;
             processes[running].pid = startProcess(processes[running]);
         }
@@ -25,10 +26,13 @@ int FIFO(int N, struct Process* processes) {
         if (running != -1 && processes[running].executionTime == 0) {
             printf("%s %d\n", processes[running].name,
                     processes[running].pid);
+            waitpid(processes[running].pid, NULL, 0);
             running = -1;
-            if (idx == N) break;
         }
-
+        
+        // Check if all done
+        if (running == -1 && idx == N)
+            break;
     }
     return 0;
 }
