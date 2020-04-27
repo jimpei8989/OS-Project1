@@ -1,0 +1,60 @@
+------ FIFO 1 ------
+Average absolute error: 127.69577353749085
+Average relative error (%): 0.08133187450654955
+------ FIFO 2 ------
+Average absolute error: 8143.167384138731
+Average relative error (%): 0.09565572109764503
+------ FIFO 3 ------
+Average absolute error: 1275.739135397611
+Average relative error (%): 0.07549619168830725
+------ FIFO 4 ------
+Average absolute error: 173.28525403472838
+Average relative error (%): 0.06435101665099044
+------ FIFO 5 ------
+Average absolute error: 1301.6469475102513
+Average relative error (%): 0.0766673431555391
+------ RR   1 ------
+Average absolute error: 135.32958164250505
+Average relative error (%): 0.08514494614813917
+------ RR   2 ------
+Average absolute error: 338.29044661923143
+Average relative error (%): 0.03815581515008661
+------ RR   3 ------
+Average absolute error: 1202.5898690338734
+Average relative error (%): 0.04815981468204106
+------ RR   4 ------
+Average absolute error: 612.5957851816556
+Average relative error (%): 0.04693079264323596
+------ RR   5 ------
+Average absolute error: 730.3260832395143
+Average relative error (%): 0.054470696808202566
+------ SJF  1 ------
+Average absolute error: 457.80324908696275
+Average relative error (%): 0.06808391734537768
+------ SJF  2 ------
+Average absolute error: 332.4356854357128
+Average relative error (%): 0.03857042956709962
+------ SJF  3 ------
+Average absolute error: 902.6804774392865
+Average relative error (%): 0.06909681445180402
+------ SJF  4 ------
+Average absolute error: 712.8774070293838
+Average relative error (%): 0.10101156046470379
+------ SJF  5 ------
+Average absolute error: 194.9127640739996
+Average relative error (%): 0.06734222565087217
+------ PSJF 1 ------
+Average absolute error: 693.8875150369138
+Average relative error (%): 0.05111067666615791
+------ PSJF 2 ------
+Average absolute error: 397.0731710095816
+Average relative error (%): 0.05700232575766867
+------ PSJF 3 ------
+Average absolute error: 121.29799707002562
+Average relative error (%): 0.06136512861683176
+------ PSJF 4 ------
+Average absolute error: 409.12595302344107
+Average relative error (%): 0.059200581379809214
+------ PSJF 5 ------
+Average absolute error: 361.05303512387275
+Average relative error (%): 0.03678894230975346

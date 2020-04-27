@@ -9,7 +9,9 @@ function cmpp() {
 }
 
 echo "------ TIME MEASUREMENT ------"
-./scheduler < testdata/TIME_MEASUREMENT.txt > output/TIME_MEASUREMENT_stdout.txt 2> output/TIME_MEASUREMENT_dmesg.txt
+dmesg -C
+./scheduler < testdata/TIME_MEASUREMENT.txt > output/TIME_MEASUREMENT_stdout.txt
+dmesg -t | grep "Project1" > output/TIME_MEASUREMENT_dmesg.txt
 
 policies=("FIFO" "RR" "SJF" "PSJF")
 # policies=("SJF" "PSJF")
