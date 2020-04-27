@@ -68,12 +68,13 @@ pid_t startProcess(struct Process process) {
         if (clock_gettime(CLOCK_REALTIME, &endTS) < 0)
             ERROR("Clock gettime (end)");
 
+        printf("%s %d\n", process.name, pid);
         char msg[50];
-        sprintf(msg, "[Project1] %d %lu.%09lu %lu.%09lu", getpid(),
+        sprintf(msg, "%d %lu.%09lu %lu.%09lu", getpid(),
                 beginTS.tv_sec, beginTS.tv_nsec,
                 endTS.tv_sec, endTS.tv_nsec);
 
-        fprintf(stderr, "%s\n", msg);
+        print_dmesg(msg);
 
         exit(0);
     } else {

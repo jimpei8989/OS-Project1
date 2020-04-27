@@ -30,14 +30,10 @@ int SJF(int N, struct Process* processes) {
             processes[running].executionTime -= 1;
         }
 
-        // Check if process ends or TTL = 0
-        if (running != -1) {
-            if (processes[running].executionTime == 0) {
-                printf("%s %d\n", processes[running].name,
-                        processes[running].pid);
-                waitpid(processes[running].pid, NULL, 0);
-                running = -1;
-            }
+        // Check if process ends
+        if (running != -1 && processes[running].executionTime == 0) {
+            waitpid(processes[running].pid, NULL, 0);
+            running = -1;
         }
 
         // Check if all done

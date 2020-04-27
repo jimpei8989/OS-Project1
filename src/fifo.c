@@ -31,8 +31,6 @@ int FIFO(int N, struct Process* processes) {
 
         // Check if process ends
         if (running != -1 && processes[running].executionTime == 0) {
-            printf("%s %d\n", processes[running].name,
-                    processes[running].pid);
             waitpid(processes[running].pid, NULL, 0);
             running = -1;
         }

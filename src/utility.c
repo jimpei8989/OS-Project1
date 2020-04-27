@@ -20,6 +20,12 @@ void ERROR(const char *msg) {
     exit(1);
 }
 
+void print_dmesg(const char *msg) {
+    FILE *f = fopen("/dev/kmsg", "a");
+    fprintf(f, "[Project1] %s\n", msg);
+    fclose(f);
+}
+
 struct Queue* newQueue(int size) {
     struct Queue *q = (struct Queue*)malloc(sizeof(struct Queue));
     q->head = 0;

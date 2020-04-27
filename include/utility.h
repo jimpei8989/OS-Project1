@@ -6,6 +6,7 @@
 void UNIT();
 void ELAPSE(int t);
 void ERROR(const char *msg);
+void print_dmesg(const char *msg);
 
 struct Queue {
     int head, size, capacity;
