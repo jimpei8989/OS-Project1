@@ -14,8 +14,8 @@ int procCmp(const void *a, const void *b) {
 
     if (pa->readyTime != pb->readyTime) {
         return pa->readyTime - pb->readyTime;
-    } else if (pa->executionTime != pb->executionTime) {
-        return pa->executionTime - pb->executionTime;
+    /* } else if (pa->executionTime != pb->executionTime) { */
+    /*     return pa->executionTime - pb->executionTime; */
     } else {
         return strcmp(pa->name, pb->name);
     }
