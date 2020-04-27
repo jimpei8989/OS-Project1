@@ -13,13 +13,14 @@ int SJF(int N, struct Process* processes) {
     while (1) {
         // Enqueue all ready processes
         while (idx < N && processes[idx].readyTime <= currentTime) {
+            processes[idx].pid = startProcess(processes[idx]);
             PQPush(pq, idx++);
         }
 
         // Start / wakeup a process
         if (running == -1 && pq->size > 0) {
             running = PQPop(pq);
-            processes[running].pid = startProcess(processes[running]);
+            wakeProcess(processes[running].pid);
         }
 
         // Elapse

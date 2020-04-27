@@ -13,12 +13,12 @@ int PSJF(int N, struct Process* processes) {
     while (1) {
         // Enqueue all ready processes
         while (idx < N && processes[idx].readyTime <= currentTime) {
+            processes[idx].pid = startProcess(processes[idx]);
             PQPush(pq, idx++);
         }
 
         // Check if running is current shortest
         if (running != -1 && pq->size > 0 && processes[running].executionTime > processes[PQTop(pq)].executionTime) {
-            printf("[%5d] ", currentTime);
             blockProcess(processes[running].pid);
             PQPush(pq, running);
             running = -1;
@@ -27,12 +27,7 @@ int PSJF(int N, struct Process* processes) {
         // Start / wakeup a process
         if (running == -1 && pq->size > 0) {
             running = PQPop(pq);
-            if (processes[running].pid == -1) {
-                processes[running].pid = startProcess(processes[running]);
-            } else {
-                printf("[%5d] ", currentTime);
-                wakeProcess(processes[running].pid);
-            }
+            wakeProcess(processes[running].pid);
         }
 
         // Elapse
@@ -44,8 +39,7 @@ int PSJF(int N, struct Process* processes) {
         // Check if process ends or TTL = 0
         if (running != -1) {
             if (processes[running].executionTime == 0) {
-                printf("%s %d\n", processes[running].name,
-                        processes[running].pid);
+                printf("%s %d\n", processes[running].name, processes[running].pid);
                 waitpid(processes[running].pid, NULL, 0);
                 running = -1;
             }

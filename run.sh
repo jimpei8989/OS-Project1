@@ -18,3 +18,8 @@ for i in {1..5}; do
     ./scheduler < testdata/SJF_$i.txt > output/SJF_${i}_stdout.txt 2> output/SJF_${i}_dmesg.txt
 done
 
+for i in {1..5}; do
+    echo "------ PSJF $i ------"
+    ./scheduler < testdata/PSJF_$i.txt > output/PSJF_${i}_stdout.txt 2> output/PSJF_${i}_dmesg.txt
+done
+

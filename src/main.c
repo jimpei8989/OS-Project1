@@ -39,8 +39,9 @@ int main() {
 
     qsort(processes, N, sizeof(struct Process), procCmp);
     
-    // Assign self to CPU 0
+    // Assign self to CPU 0, set self to highest
     assignCPU(getuid(), 0);
+    wakeProcess(getuid());
     
     if (strcmp(policy, "FIFO") == 0) {
         FIFO(N, processes);

@@ -25,7 +25,6 @@ void blockProcess(const pid_t pid) {
     struct sched_param param;
     param.sched_priority = 1;
 
-    printf("Block %d\n", pid);
     if (sched_setscheduler(pid, SCHED_FIFO, &param) < 0) 
         ERROR("Set scheduler [1]");
 }
@@ -34,9 +33,17 @@ void wakeProcess(const pid_t pid) {
     struct sched_param param;
     param.sched_priority = 99;
 
-    printf("Wake  %d\n", pid);
     if (sched_setscheduler(pid, SCHED_FIFO, &param) < 0) 
         ERROR("Set scheduler [99]");
+}
+
+int getPriority(const pid_t pid) {
+    struct sched_param param;
+
+    if (sched_getparam(pid, &param) < 0) 
+        ERROR("Get scheduler");
+
+    return param.sched_priority;
 }
 
 pid_t startProcess(struct Process process) {
@@ -46,6 +53,11 @@ pid_t startProcess(struct Process process) {
         ERROR("Fork");
     } else if (pid == 0) {
         // is child
+        
+        pid = getpid();
+
+        while (getPriority(pid) != 99);
+
         struct timespec beginTS, endTS;
 
         if (clock_gettime(CLOCK_REALTIME, &beginTS) < 0)
@@ -67,6 +79,7 @@ pid_t startProcess(struct Process process) {
     } else {
         // is parent
         assignCPU(pid, 1);
+        blockProcess(pid);
     }
     return pid;
 }

@@ -8,11 +8,18 @@ int FIFO(int N, struct Process* processes) {
     int idx = 0, running = -1;
     int currentTime = 0;
 
+    struct Queue *q = newQueue(N);
+
     while (1) {
         // Check if a new ready process is going to start
-        if (running == -1 && processes[idx].readyTime <= currentTime) {
-            running = idx++;
-            processes[running].pid = startProcess(processes[running]);
+        while (idx < N && processes[idx].readyTime <= currentTime) {
+            processes[idx].pid = startProcess(processes[idx]);
+            QPush(q, idx++);
+        }
+
+        if (running == -1 && q->size > 0) {
+            running = QPop(q);
+            wakeProcess(processes[running].pid);
         }
 
         // Elapse
@@ -31,7 +38,7 @@ int FIFO(int N, struct Process* processes) {
         }
         
         // Check if all done
-        if (running == -1 && idx == N)
+        if (running == -1 && idx == N && q->size == 0)
             break;
     }
     return 0;

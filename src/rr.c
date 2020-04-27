@@ -15,6 +15,7 @@ int RR(int N, struct Process* processes) {
     while (1) {
         // Enqueue all ready processes
         while (idx < N && processes[idx].readyTime <= currentTime) {
+            processes[idx].pid = startProcess(processes[idx]);
             QPush(q, idx++);
         }
 
@@ -28,11 +29,7 @@ int RR(int N, struct Process* processes) {
         // Start / wakeup a process
         if (running == -1 && q->size > 0) {
             running = QPop(q);
-            if (processes[running].pid == -1) {
-                processes[running].pid = startProcess(processes[running]);
-            } else {
-                wakeProcess(processes[running].pid);
-            }
+            wakeProcess(processes[running].pid);
             TTL = PERIOD;
         }
 
