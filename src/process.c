@@ -9,6 +9,11 @@
 #include <unistd.h>
 #include <sched.h>
 
+#include <sys/syscall.h>
+
+#define PRINTK 333
+#define GETTIME 334
+
 void assignCPU(const pid_t pid, int cpu) {
     if (cpu > (int)sizeof(cpu_set_t))
         ERROR("CPU index error");
@@ -60,13 +65,15 @@ pid_t startProcess(struct Process process) {
 
         struct timespec beginTS, endTS;
 
-        if (clock_gettime(CLOCK_REALTIME, &beginTS) < 0)
-            ERROR("Clock gettime (begin)");
+        /* if (clock_gettime(CLOCK_REALTIME, &beginTS) < 0) */
+        /*     ERROR("Clock gettime (begin)"); */
+        syscall(GETTIME, &beginTS);
         
         ELAPSE(process.executionTime);
 
-        if (clock_gettime(CLOCK_REALTIME, &endTS) < 0)
-            ERROR("Clock gettime (end)");
+        /* if (clock_gettime(CLOCK_REALTIME, &endTS) < 0) */
+        /*     ERROR("Clock gettime (end)"); */
+        syscall(GETTIME, &endTS);
 
         printf("%s %d\n", process.name, pid);
         char msg[50];
@@ -74,7 +81,8 @@ pid_t startProcess(struct Process process) {
                 beginTS.tv_sec, beginTS.tv_nsec,
                 endTS.tv_sec, endTS.tv_nsec);
 
-        print_dmesg(msg);
+        /* print_dmesg(msg); */
+        syscall(PRINTK, msg);
 
         exit(0);
     } else {
