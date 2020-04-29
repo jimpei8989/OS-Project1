@@ -37,11 +37,15 @@ def main():
     with open(dmesg) as f:
         realTime = dict()
         for _, PID, start, end in map(lambda s : s.split(), f.readlines()):
-            name = PID2name[PID]
-            realTime[name] = float(start), float(end)
+            n = PID2name[PID]
+            realTime[n] = float(start), float(end)
 
     losses = []
     lossPercent = []
+
+    blahes = []
+    blahPercent = []
+
     begin = realTime[P0][0] - theoreticalTime[P0][0] * UNIT
     for pid, (s, e) in realTime.items():
         s = (s - begin) / UNIT
@@ -52,10 +56,11 @@ def main():
         losses.append(loss)
         lossPercent.append(loss / te)
 
-        #  print(s, e, ts, te)
+        bb = abs((te - ts) - (e - s))
+        blahes.append(bb)
+        blahPercent.append(bb / (te - ts))
 
-    print('Average absolute error:', mean(losses))
-    print('Average relative error (%):', mean(lossPercent))
+    print(name, mean(losses), mean(lossPercent), mean(blahes), mean(blahPercent))
 
 if __name__ == '__main__':
     main()

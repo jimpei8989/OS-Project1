@@ -134,7 +134,7 @@ while True:
 
 ## 3. Result
 
-### Theoretical Outcome
+#### Theoretical Outcome
 
 我使用一個 python3 的程式計算一個 input 的 theoretical output，結果以 unit time 為單位。
 
@@ -142,46 +142,47 @@ while True:
 python3 evaluation/theoretical.py
 ```
 
-### Error Calculation
+#### Error Calculation
 
 首先，先將執行結果轉換成以 unit time 為單位，並使用以下兩種方式定義一個 Process 的執行誤差。
 
-- Absolute Error (單位為 unit time)
-    $$
-    \begin{align*}
-    \text{Absolute Error} =
-    &|\text{Theo. Start Time} - \text{Outcome End Time}| + \\
-    &|\text{Theo. End Time} - \text{Outcome End Time}|
+- Timestamp Error
+
+    - Absolute Error (單位為 unit time)
+        $$
+        \begin{align*}
+        \text{Absolute Error} =
+        &|\text{Theo. Start Time} - \text{Real Start Time}| + \\
+        &|\text{Theo. End Time} - \text{Real End Time}|
+        \end{align*}
+        $$
     
+    - Relative Error (單位為百分比 %)
+        $$
+        \text{Relative Error} = \frac{\text{Absolute Error}}{\text{Theo. End Time}} \times 100\%
+        $$
     
-    \end{align*}
-    $$
+- Turnaround Error
+
+    - Absolute Error (單位為 unit time)
+        $$
+        \begin{align*}
+        \text{Absolute Error} =
+        &|(\text{Theo. End Time} - \text{Theo. Start Time}) - \\
+        &(\text{Real End Time} - \text{Real Start Time})|
+        \end{align*}
+        $$
     
-- Relative Error (單位為百分比 %)
-    $$
-    \text{Relative Error} = \frac{\text{Absolute Error}}{\text{Theo. End Time}} \times 100\%
-    $$
+    - Relative Error (單位為百分比 %)
+        $$
+        \text{Relative Error} = \frac{\text{Absolute Error}}{\text{Theo. Turnaround}} \times 100\%
+        $$
 
-**實作**
-
-- 我寫一個 python3 的程式計算時間誤差。
-
-    ```bash
-    python3 evaluation/diff.py POLICY_ID
-    ```
-
-- 此外，我也寫一個 python3 的程式畫出 timeline。
-
-    ```bash
-    python3 evaluation/diff-show.py POLICY_ID
-    ```
-
-#### <u>實際結果比較</u>
+#### 實際結果比較
 
 以下展示四個 demo 的 testcase 的結果：
 
-<p style="page-break-after: always"></p>
-##### <u>FIFO_1</u>
+##### <h5 style="page-break-before: always;"><u>FIFO_1</u></h5>
 
 **Proess 第一次被 CPU 排程到的時間、結束時間表格**
 
@@ -204,9 +205,7 @@ python3 evaluation/theoretical.py
 2. 實際執行起來略比理論值慢一點點
 3. 相對誤差：約 8.13319 %
 
-<p style="page-break-after: always"></p>
-
-##### <u>PSJF_2</u>
+<h5 style="page-break-before: always;"><u>PSJF_2</u></h5>
 
 **Proess 第一次被 CPU 排程到的時間、結束時間表格**
 
@@ -229,9 +228,7 @@ python3 evaluation/theoretical.py
 2. 實際執行起來略比理論值慢一點點
 3. 相對誤差：約 5.70023 %
 
-<p style="page-break-after: always"></p>
-
-##### <u>RR_3</u>
+<h5 style="page-break-before: always;"><u>RR_3</u></h5>
 
 **Proess 第一次被 CPU 排程到的時間、結束時間表格**
 
@@ -255,8 +252,9 @@ python3 evaluation/theoretical.py
 2. 實際執行起來略比理論值慢一點點
 3. 相對誤差：約 4.81598 %
 
-<p style="page-break-after: always"></p>
-##### <u>SJF_4</u>
+<hline></hline>
+
+##### <h5 style="page-break-before: always;"><u>SJF_4</u></h5>
 
 **Proess 第一次被 CPU 排程到的時間、結束時間表格**
 
@@ -281,31 +279,31 @@ python3 evaluation/theoretical.py
 
 <p style="page-break-after: always"></p>
 
-### Full Error Table
+#### Full Error Table
 
-| Testcase | Absolute Error (UT) | Relative Error (%) |
-| :------: | :------------: | :----------------: |
-| FIFO_1 | 127.69577 | 8.13319 |
-| FIFO_2 | 8143.16738 | 9.56557 |
-| FIFO_3 | 1275.73914 | 7.54962 |
-| FIFO_4 | 173.28525 | 6.43510 |
-| FIFO_5 | 1301.64695 | 7.66673 |
-| RR_1 | 135.32958 | 8.51449 |
-| RR_2 | 338.29045 | 3.81558 |
-| RR_3 | 1202.58987 | 4.81598 |
-| RR_4 | 612.59579 | 4.69308 |
-| RR_5 | 730.32608 | 5.44707 |
-| SJF_1 | 457.80325 | 6.80839 |
-| SJF_2 | 332.43569 | 3.85704 |
-| SJF_3 | 902.68048 | 6.90968 |
-| SJF_4 | 712.87741 | 10.10116 |
-| SJF_5 | 194.91276 | 6.73422 |
-| PSJF_1 | 693.88752 | 5.11107 |
-| PSJF_2 | 397.07317 | 5.70023 |
-| PSJF_3 | 121.29800 | 6.13651 |
-| PSJF_4 | 409.12595 | 5.92006 |
-| PSJF_5 | 361.05304 | 3.67889 |
-| **Overall** | **931.19068** | **6.37968** |
+| Testcase | Timestamp Abs. Error | Timestamp Rel. Error (%) | Turnaround Abs. Error | Turnaround Rel. Error (%) |
+| :------: | :------------: | :----------------: | :---:| :---: |
+| FIFO_1 | 127.69577 | 8.13319 |  21.77001 |   4.35400 |
+| FIFO_2 | 8143.16738 | 9.56557 | 1191.43638 |   4.45349 |
+| FIFO_3 | 1275.73914 | 7.54962 | 141.83908 |   4.00796 |
+| FIFO_4 | 173.28525 | 6.43510 |  31.92426 |   3.69276 |
+| FIFO_5 | 1301.64695 | 7.66673 | 157.60649 |   4.71152 |
+| RR_1 | 135.32958 | 8.51449 |  24.98108 |   4.99622 |
+| RR_2 | 338.29045 | 3.81558 | 338.29044 |   4.21711 |
+| RR_3 | 1202.58987 | 4.81598 | 918.30645 |   4.63504 |
+| RR_4 | 612.59579 | 4.69308 | 509.60035 |   4.39405 |
+| RR_5 | 730.32608 | 5.44707 | 603.91997 |   4.83008 |
+| SJF_1 | 457.80325 | 6.80839 | 163.60156 |   5.06516 |
+| SJF_2 | 332.43569 | 3.85704 | 140.29207 |   3.51088 |
+| SJF_3 | 902.68048 | 6.90968 | 175.00788 |   3.43338 |
+| SJF_4 | 712.87741 | 10.10116 | 114.01838 |   4.72493 |
+| SJF_5 | 194.91276 | 6.73422 |  40.01271 |   5.39100 |
+| PSJF_1 | 693.88752 | 5.11107 | 600.65538 |   4.85527 |
+| PSJF_2 | 397.07317 | 5.70023 | 131.94991 |   4.40793 |
+| PSJF_3 | 121.29800 | 6.13651 |  64.99896 |   5.99323 |
+| PSJF_4 | 409.12595 | 5.92006 | 168.94449 |   4.56290 |
+| PSJF_5 | 361.05304 | 3.67889 | 157.68587 |   3.26790 |
+| **Overall** | **931.19068** | **6.37968** | **284.84209** | **4.47524** |
 
 ### Conclusion & Discussion
 
