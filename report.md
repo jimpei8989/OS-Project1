@@ -311,4 +311,5 @@ python3 evaluation/theoretical.py
 
 1. 此次 Project 實作的 scheduler 基本上是符合理論上的順序及執行時間的
 2. 做出來的結果中可以發現大部分的 process 都比較晚開始，且比較晚結束。我的推測是因為使用 `TIME_MEASUREMENT` 所計算的 UNIT TIME 是比較快的（可能因為排程的 testcase 比較簡單），而到比較複雜一點的 scheduling policy 因為判斷條件較多，而會有誤差。
-3. 除了上述問題外，因為我的實作方式使用兩個核心，且我的 VM 只有兩個核心。實驗發現只要有其他 Process 正在執行將造成時間誤差增大，如 `sshd`、`tmux`、`htop` 等會干擾 schduler、process 的執行，會導致誤差最多到 33%。上面 output 的結果是重新開機後，直接跑以上 testcase 所得到的結果。
+3. 除了上述問題外，因為我的實作方式使用兩個核心，且我的 VM 只有兩個核心。實驗發現只要有其他 Process 正在執行將造成時間誤差增大，如 `sshd`、`tmux`、`htop` 等會干擾 schduler、process 的執行，會導致誤差最多到 33%。上面 output 的結果是重新開機後，直接跑以上 testcase 所得到的結果。可以看到有明顯的進步。
+4. User-space 的 scheduling 可能無法達成完美零誤差的排程，因為 scheduler 計算 unit time 需要使用 CPU，所以結果會被使用 CPU 的其他 running process 影響。完美的排程方式可能必須寫在 OS 中，並且使用採用其他時間計算方式。
