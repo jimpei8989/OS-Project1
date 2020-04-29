@@ -193,17 +193,17 @@ python3 evaluation/theoretical.py
 | P3 | 1000.00000 | 1500.00000 | 1060.32034 | 1588.90728 |
 | P4 | 1500.00000 | 2000.00000 | 1589.15729 | 2088.42533 |
 | P5 | 2000.00000 | 2500.00000 | 2088.64196 | 2610.68563 |
-**作圖**
+**作圖**（表格上半部為理論時間；下半部為實際時間）
 
 <img src="demo/FIFO_1.png" style="zoom: 67%;" />
-
-> 表格上半部為理論時間；下半部為實際時間
 
 **結果說明**
 
 1. 所有的 Process 執行順序、開始時間、結束時間都符合理論值
 2. 實際執行起來略比理論值慢一點點
-3. 相對誤差：約 8.13319 %
+3. 誤差
+    - Relative Timestamp Error: 8.13319 %
+    - Relative Turnaround Error: 4.35400 %
 
 <h5 style="page-break-before: always;"><u>PSJF_2</u></h5>
 
@@ -216,17 +216,17 @@ python3 evaluation/theoretical.py
 | P3 | 4000.00000 | 11000.00000 | 4158.74988 | 11487.01499 |
 | P4 | 5000.00000 | 7000.00000 | 5200.76232 | 7279.89572 |
 | P5 | 7000.00000 | 8000.00000 | 7280.21392 | 8339.41034 |
-**作圖**
+**作圖**（表格上半部為理論時間；下半部為實際時間）
 
 <img src="demo/PSJF_2.png" style="zoom: 67%;" />
-
-> 表格上半部為理論時間；下半部為實際時間
 
 **結果說明**
 
 1. 所有的 Process 執行順序、開始時間、結束時間都符合理論值
 2. 實際執行起來略比理論值慢一點點
-3. 相對誤差：約 5.70023 %
+3. 誤差
+    - Relative Timestamp Error: 5.70023 %
+    - Relative Turnaround Error: 4.40793 %
 
 <h5 style="page-break-before: always;"><u>RR_3</u></h5>
 
@@ -240,17 +240,17 @@ python3 evaluation/theoretical.py
 | P4 | 6200.00000 | 31200.00000 | 6413.78382 | 32593.31699 |
 | P5 | 6700.00000 | 30200.00000 | 6907.04945 | 31539.50763 |
 | P6 | 8200.00000 | 28200.00000 | 8478.53302 | 29392.42141 |
-**作圖**
+**作圖**（表格上半部為理論時間；下半部為實際時間）
 
 <img src="demo/RR_3.png" style="zoom:67%;" />
-
-> 表格上半部為理論時間；下半部為實際時間
 
 **結果說明**
 
 1. 所有的 Process 執行順序、開始時間、結束時間都符合理論值
 2. 實際執行起來略比理論值慢一點點
-3. 相對誤差：約 4.81598 %
+3. 誤差
+    - Relative Timestamp Error: 4.81598 %
+    - Relative Turnaround Error: 4.63504 %
 
 <hline></hline>
 
@@ -265,21 +265,19 @@ python3 evaluation/theoretical.py
 | P3 | 4000.00000 | 8000.00000 | 4274.54613 | 8463.12474 |
 | P4 | 9000.00000 | 11000.00000 | 9518.56327 | 11593.14746 |
 | P5 | 8000.00000 | 9000.00000 | 8463.43757 | 9518.33241 |
-**作圖**
+**作圖**（表格上半部為理論時間；下半部為實際時間）
 
 <img src="demo/SJF_4.png" style="zoom:67%;" />
-
-> 表格上半部為理論時間；下半部為實際時間
 
 **結果說明**
 
 1. 所有的 Process 執行順序、開始時間、結束時間都符合理論值
 2. 實際執行起來略比理論值慢一點點
-3. 相對誤差：約 10.10116 %
+3. 誤差
+    - Relative Timestamp Error: 10.10116 %
+    - Relative Turnaround Error: 4.72493 %
 
-<p style="page-break-after: always"></p>
-
-#### Full Error Table
+<h4 style="page-break-before: always;">Full Error Table</h4>
 
 | Testcase | Timestamp Abs. Error | Timestamp Rel. Error (%) | Turnaround Abs. Error | Turnaround Rel. Error (%) |
 | :------: | :------------: | :----------------: | :---:| :---: |
@@ -305,7 +303,7 @@ python3 evaluation/theoretical.py
 | PSJF_5 | 361.05304 | 3.67889 | 157.68587 |   3.26790 |
 | **Overall** | **931.19068** | **6.37968** | **284.84209** | **4.47524** |
 
-### Conclusion & Discussion
+<h3 style="page-break-before: always">Conclusion & Discussion</h3>
 
 1. 此次 Project 實作的 scheduler 基本上是符合理論上的順序及執行時間的
 2. 做出來的結果中可以發現大部分的 process 都比較晚開始，且比較晚結束。我的推測是因為使用 `TIME_MEASUREMENT` 所計算的 UNIT TIME 是比較快的（可能因為排程的 testcase 比較簡單），而到比較複雜一點的 scheduling policy 因為判斷條件較多，而會有誤差。
