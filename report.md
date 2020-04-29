@@ -96,7 +96,7 @@ while True:
 - `include/linux/syscall_64.h`：加上以下兩行
 
     ```c
-    asmlinkage void sys_my_printk(char *str);
+    asmlinkage void sys_my_printk(char *s);
     asmlinkage void sys_my_gettime(struct timespec *ts);
     ```
 
