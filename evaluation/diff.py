@@ -4,14 +4,12 @@ def mean(l):
     return sum(l) / len(l)
 
 def main():
-    if len(sys.argv) != 5:
-        print('usage:\tpython3 diff.py measurement.txt theoretical.txt stdout.txt dmesg.txt')
-        exit(0)
+    name = sys.argv[1]
 
-    measurement = sys.argv[1]
-    theoretical = sys.argv[2]
-    stdout = sys.argv[3]
-    dmesg = sys.argv[4]
+    measurement = 'output/TIME_MEASUREMENT_dmesg.txt'
+    theoretical = f'theoretical-output/{name}_stdout.txt'
+    stdout = f'output/{name}_stdout.txt'
+    dmesg = f'output/{name}_dmesg.txt'
 
     # calculate unit time
     with open(measurement) as f:
